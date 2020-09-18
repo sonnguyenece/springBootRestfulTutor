@@ -15,5 +15,8 @@ import javax.annotation.PreDestroy;
 @Setter
 @NoArgsConstructor
 public class Girl {
-private String name;
+    @Override
+    public String toString() {
+        return "Girl.java";
+    }
 }
