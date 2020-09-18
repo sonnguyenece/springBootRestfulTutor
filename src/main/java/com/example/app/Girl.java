@@ -13,7 +13,6 @@ import javax.annotation.PreDestroy;
 @Getter
 @AllArgsConstructor
 @Setter
-@NoArgsConstructor
 public class Girl {
     @Override
     public String toString() {
