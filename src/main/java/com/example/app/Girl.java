@@ -7,9 +7,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
-@AllArgsConstructor
 @Data
 public class Girl {
+    @Qualifier("naked")
+    @Autowired
     Outfit outfit;
 
+//    Girl(@Qualifier("naked") Outfit outfit) {
+//        this.outfit = outfit;
+//    }
 }
