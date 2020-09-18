@@ -9,9 +9,10 @@ import java.util.Optional;
 
 @org.springframework.stereotype.Repository
 public interface Repository extends JpaRepository<User,Long> {
-    @Query(nativeQuery=true,value = "SELECT * FROM User WHERE def = ?")
+    @Query("SELECT u FROM User u WHERE u.def = :def")
+    List<User> findUserByDefQuery(@Param("def") Integer def);
 
-    List<User> findUserByDefQuery(Long def);
-
+//    @Query(nativeQuery=true,value = "SELECT * FROM User WHERE def = ?")
+//    List<User> findUserByDefQuery(Long def);
 
 }
