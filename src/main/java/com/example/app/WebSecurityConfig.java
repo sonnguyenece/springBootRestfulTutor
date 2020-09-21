@@ -1,29 +1,36 @@
 package com.example.app;
 
+import com.example.app.user.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Bean
-    @Override
-    public UserDetailsService userDetailsService(){
 
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(
-                User.withDefaultPasswordEncoder() // Sử dụng mã hóa password đơn giản
-                        .username("loda")
-                        .password("loda")
-                        .roles("USER") // phân quyền là người dùng.
-                        .build()
-        );
-        return manager;
+    @Autowired
+    UserService userService;
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        // Password encoder, để Spring Security sử dụng mã hóa mật khẩu người dùng
+        return new BCryptPasswordEncoder();
     }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth)throws Exception{
+        auth.userDetailsService(userService)// Cung cáp userservice cho spring security
+                .passwordEncoder(passwordEncoder());// cung cấp password encoder
+    }
+
 @Override
     protected void configure(HttpSecurity http) throws Exception{
         http
